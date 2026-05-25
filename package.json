@@ -1,0 +1,30 @@
+{
+  "name": "adel-assistant",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Deterministic personal assistant. Scripts first, LLM fallback. Named after Savta Adel.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "tsx src/index.ts",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@openrouter/sdk": "^0.12.35",
+    "@supabase/supabase-js": "^2.45.4",
+    "better-sqlite3": "^12.10.0",
+    "dotenv": "^16.4.5",
+    "telegraf": "^4.16.3",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/node": "^22.7.5",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.3"
+  }
+}

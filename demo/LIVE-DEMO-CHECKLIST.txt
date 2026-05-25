@@ -1,0 +1,134 @@
+Adel Assistant — Live Demo Checklist
+===================================
+
+WHAT I NEED FROM YOU
+--------------------
+1. TELEGRAM_BOT_TOKEN
+   - Create/get from @BotFather
+   - Paste into .env only. Do not paste publicly.
+
+2. ADEL_ADMIN_TELEGRAM_ID
+   - Your numeric Telegram ID.
+   - Get it by messaging @userinfobot.
+
+3. OPENROUTER_API_KEY
+   - Must have credits.
+   - Paste into .env only.
+
+SETUP BEFORE LIVE
+-----------------
+1. Open terminal:
+   cd "C:\Code\BrainboxAI\1 - projects\Adel Assistant"
+
+2. Create env file:
+   copy .env.demo .env
+
+3. Fill these three values inside .env:
+   OPENROUTER_API_KEY=...
+   TELEGRAM_BOT_TOKEN=...
+   ADEL_ADMIN_TELEGRAM_ID=...
+
+4. Verify build:
+   npm run typecheck
+   npm run build
+
+5. Start bot:
+   npm run dev
+
+LIVE DEMO FLOW
+--------------
+
+PART 1 — Owner onboarding
+1. From your Telegram account, send to the bot:
+   /start
+
+Expected:
+- Bot welcomes you as owner.
+- SQLite DB is created at ./data/adel-demo.db.
+
+PART 2 — Upload business knowledge
+Send this as one message from owner:
+
+!doc faq.txt
+שעות הפעילות שלנו הן ראשון עד חמישי, 09:00 עד 17:00.
+מחיר פגישת ייעוץ ראשונה הוא 250 שקל.
+אנחנו עובדים באזור ירושלים והמרכז.
+אפשר לקבוע פגישה ראשונית דרך הודעה בטלגרם.
+
+Expected:
+- Bot says it ingested faq.txt and saved chunks.
+
+PART 3 — New client onboarding
+1. From a second Telegram account, send:
+   /start
+
+2. Owner should receive a message with client id.
+
+3. From owner account, send:
+   /claim <CLIENT_ID> client
+
+Expected:
+- Bot confirms client was linked.
+
+PART 4 — Grounded RAG answer
+From client account, ask:
+   מה שעות הפעילות שלכם?
+
+Expected:
+- Bot answers from uploaded FAQ.
+- No owner approval needed.
+
+PART 5 — Human-in-the-loop approval
+From client account, ask:
+   אפשר לקבל הנחה מיוחדת?
+
+Expected:
+- Client receives holding message:
+  אני בודקת מול הצוות ואחזור אליך בהקדם.
+
+- Owner receives draft with buttons:
+  אשר ושלח / דחה
+
+Click approve.
+Expected:
+- Client receives approved drafted answer.
+
+PART 6 — Owner memory
+From owner account, send:
+   תזכרי שהדרכון שלי במגירה הכחולה
+
+Then ask:
+   איפה הדרכון שלי?
+
+Expected:
+- Bot recalls the memory.
+
+IF SOMETHING FAILS
+------------------
+1. Bot does not respond:
+   - Check TELEGRAM_BOT_TOKEN.
+   - Make sure npm run dev is still running.
+
+2. Owner is not owner:
+   - Check ADEL_ADMIN_TELEGRAM_ID numeric value.
+   - Delete ./data/adel-demo.db and restart if you used wrong ID first.
+
+3. RAG/LLM fails:
+   - Check OPENROUTER_API_KEY and credits.
+   - Consider changing OPENROUTER_MODEL to a cheaper model in .env.
+
+4. Client gets unclaimed response:
+   - Run /claim <CLIENT_ID> client from owner account.
+
+DO NOT DEMO TOMORROW
+--------------------
+- Supabase
+- WhatsApp
+- PDF upload
+- Google Calendar
+- Production security
+- Large multi-tenant scale
+
+DEMO POSITIONING
+----------------
+"Adel is an invisible admin for small businesses. It answers routine client questions from business knowledge, and when it is not grounded it drafts a response for owner approval instead of hallucinating. The MVP now runs locally on SQLite, so every business can start without cloud setup. Supabase remains available as a future hosted backend."
